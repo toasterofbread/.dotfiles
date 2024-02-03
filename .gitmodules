@@ -1,0 +1,3 @@
+[submodule "Programs/applications/hyprdive"]
+	path = Programs/applications/hyprdive
+	url = https://github.com/toasterofbread/hyprdive

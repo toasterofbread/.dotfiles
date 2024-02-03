@@ -1,0 +1,43 @@
+#!/bin/python3
+import sys
+import os
+from spectre7 import utils
+
+UNSAFE_FILES = (
+    ".git", 
+)
+
+def main():
+
+    found = []
+    for arg in sys.argv[1:]:
+        for file in arg.split("/"):
+            if file in UNSAFE_FILES:
+                found.append(file)
+
+    if len(found) > 0:
+        if len(found) == 1:
+            prompt = f"The file or directory '{file}' is marked as unsafe. Proceeed?"
+        else:
+            prompt = "The following files and/or directories are marked as unsafe:"
+            for file in found:
+                prompt += f"\n - {file}"
+            prompt += "\nProceed?"
+        
+        if utils.input_yesno(prompt) != "y":
+            print("Operation cancelled")
+            return
+
+    command = "/usr/bin/rm "
+
+    for file in sys.argv[1:]:
+        if file.startswith("-"):
+            command += file
+        else:      
+            command += "\"" + file + "\""
+        command += " "
+
+    os.system(command)
+
+if __name__ == "__main__":
+    main()

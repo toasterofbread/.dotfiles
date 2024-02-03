@@ -1,0 +1,44 @@
+# Wallpaper utility (in ~/bin)
+killall displaywallpaper.py
+
+# No clue why the delay is needed, it used to work fine and does work fine on second launch
+displaywallpaper --delay 3 &
+
+# IME
+killall fcitx5
+fcitx5 &
+
+# Status bar
+killall waybar
+waybar &
+
+# Notifications daemon
+killall dunst
+dunst &
+
+# ReplaySorcery
+systemctl --user enable --now replay-sorcery
+
+# Network status indicator
+# killall nm-applet
+# nm-applet &
+
+# Polkit (password input GUI)
+killall lxpolkit
+/usr/bin/lxpolkit &
+
+# Discord
+if ! pgrep -x "Discord" > /dev/null
+then
+    ~/Apps/Discord/Discord --start-minimized &
+fi
+
+# Steam
+killall steam
+steam -silent &
+
+# OBS replay buffer (RIP replay-sorcery?)
+#killall obs
+#obsreplay &
+
+notify-send "Hyprland config loaded" -t 1000

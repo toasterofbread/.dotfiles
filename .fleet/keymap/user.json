@@ -1,0 +1,108 @@
+{
+  "keymap": [
+    {
+      "key": "ctrl-alt-r",
+      "trigger": "-go-to-run"
+    },
+    {
+      "key": "ctrl-f5",
+      "trigger": "go-to-run"
+    },
+    {
+      "key": "f5",
+      "trigger": "-debug/resume"
+    },
+    {
+      "key": "ctrl-k ctrl-l",
+      "trigger": "-toggle-folding"
+    },
+    {
+      "key": "ctrl-shift-leftbracket",
+      "trigger": "-collapse-folding"
+    },
+    {
+      "key": "ctrl-minus",
+      "trigger": "collapse-folding"
+    },
+    {
+      "key": "ctrl-shift-rightbracket",
+      "trigger": "-expand-folding"
+    },
+    {
+      "key": "ctrl-equalssign",
+      "trigger": "expand-folding"
+    },
+    {
+      "key": "ctrl-equalssign",
+      "trigger": "-zoom-in"
+    },
+    {
+      "key": "ctrl-shift-equalssign",
+      "trigger": "-zoom-in"
+    },
+    {
+      "key": "ctrl-numpadadd",
+      "trigger": "-zoom-in"
+    },
+    {
+      "key": "shift-ctrl-equalssign",
+      "trigger": "zoom-in"
+    },
+    {
+      "key": "ctrl-shift-minus",
+      "trigger": "-zoom-out"
+    },
+    {
+      "key": "ctrl-numpadsubtract",
+      "trigger": "-zoom-out"
+    },
+    {
+      "key": "ctrl-minus",
+      "trigger": "-zoom-out"
+    },
+    {
+      "key": "shift-ctrl-minus",
+      "trigger": "zoom-out"
+    },
+    {
+      "key": "ctrl-period",
+      "trigger": "-quick-fixes"
+    },
+    {
+      "key": "alt-return",
+      "trigger": "quick-fixes"
+    },
+    {
+      "key": "alt-return",
+      "trigger": "-ai/toggle-inline-ai-prompt"
+    },
+    {
+      "key": "ctrl-period",
+      "trigger": "ai/toggle-inline-ai-prompt"
+    },
+    {
+      "key": "ctrl-shift-f5",
+      "trigger": "-run/rerun"
+    },
+    {
+      "key": "f5",
+      "trigger": "run/rerun"
+    },
+    {
+      "key": "alt-shift-down",
+      "trigger": "-duplicate-line"
+    },
+    {
+      "key": "ctrl-d",
+      "trigger": "duplicate-line"
+    },
+    {
+      "key": "ctrl-t",
+      "trigger": "-show-goto-symbol-panel"
+    },
+    {
+      "key": "ctrl-t",
+      "trigger": "jump-to-terminal"
+    }
+  ]
+}

@@ -1,0 +1,103 @@
+#!/usr/bin/python3
+
+# Shell script to automatically download and install latest VSCode verison
+
+import os, sys
+from os import path
+from spectre7 import utils
+
+DOWNLOAD_DIR = "/tmp/UPDATE"
+UPDATE_TYPES = {
+    "code": {
+        "destination": "/opt/visual-studio-code-insiders",
+        "source": "https://update.code.visualstudio.com/latest/linux-x64/insider",
+        "extension": ".tar.gz",
+        "name": "VSCode"
+    },
+    "firefox": {
+        "destination": "/usr/lib/firefox-developer-edition/",
+        "source": "https://download.mozilla.org/?product=firefox-devedition-latest-ssl&os=linux64&lang=en-GB",
+        "extension": ".tar.bz2",
+        "name": "Firefox"
+    },
+    "discord": {
+        "name": "Discord",
+        "steps": [
+            {
+                "type": "extract",
+                "destination": "/home/toaster/Programs/applications/Discord/",
+                "source": "https://discord.com/api/download?platform=linux&format=tar.gz",
+                "extension": ".tar.gz"
+            },
+            {
+                "type": "wait",
+                "message": "Run Discord once, close it, then press enter..."
+            },
+            {
+                "type": "run",
+                "source": "https://github.com/BetterDiscord/Installer/releases/latest/download/BetterDiscord-Linux.AppImage"
+            }
+        ]
+    }
+}
+
+def stepExtract(name: str, data: dict):
+    archive = path.join(DOWNLOAD_DIR, name + data["extension"])
+
+    utils.log(f"Downloading latest {name} release")
+    os.system(f"wget -O {archive} \"{data['source']}\"")
+
+    utils.ensureDirExists(data["destination"])
+
+    utils.log(f"Removing existing {name} installation at {data['destination']}")
+    os.system(f"sudo rm -rf {path.join(data['destination'], '*')}")
+
+    utils.log(f"Extracting downloaded archive to {data['destination']}")
+    os.system(f"sudo tar -xf {archive} -C {data['destination']} --strip-components 1")
+
+    utils.log(f"Removing downloaded archive")
+    os.system(f"rm {archive}")
+
+def stepRun(name: str, data: dict):
+    file = path.join(DOWNLOAD_DIR, path.basename(data["source"]))
+
+    utils.log(f"Downloading file {data['source']} release")
+    os.system(f"wget -O {file} \"{data['source']}\"")
+
+    os.system(f"chmod +x {file}")
+    os.system(file)
+
+    utils.log(f"Removing downloaded file")
+    os.system(f"rm {file}")
+
+def stepWait(name: str, data: dict):
+    input(data["message"])
+
+def update(name: str):
+    utils.ensureDirExists(DOWNLOAD_DIR)
+
+    name = name.lower()
+    data = UPDATE_TYPES[name]
+
+    for _step in data["steps"] if "steps" in data else [data]:
+        step: dict[str, str] = _step # type: ignore
+        match step["type"] if "type" in step else "extract":
+            case "extract":
+                stepExtract(name, step)
+            case "run":
+                stepRun(name, step)
+            case "wait":
+                stepWait(name, step)
+            case _:
+                raise RuntimeError
+
+    utils.log(f"Successfully installed the latest version of {data['name']}")
+
+if __name__ == "__main__":
+    args = sys.argv[1:]
+    if len(args) == 0:
+        utils.err(f"No update type specified. Available types: {list(UPDATE_TYPES.keys())}")
+    elif not args[0].lower() in UPDATE_TYPES:
+        utils.err(f"'{args[0]}' is not a valid update type. Available types: {list(UPDATE_TYPES.keys())}")
+    else:
+        update(args[0].lower())

@@ -1,0 +1,86 @@
+#!/usr/bin/python3
+
+import argparse
+import notify2
+from subprocess import Popen, getstatusoutput, PIPE, DEVNULL
+from os import system, environ
+
+APPS = {
+    # "Ryujinx": "GDK_BACKEND=x11 ryujinx",
+    # "Hades": "winedesktop /home/spectre7/Games/Hades/x64/Hades.exe",
+    # "MultiMC Testing Instance": "multimc --launch 1.19\ Testing",
+    # "Lutris": "lutris",
+    # "Calendar": "gnome-calendar",
+    "Android Studio": "STUDIO_JDK=/usr/lib/jvm/java-17-openjdk/ /opt/android-studio/bin/studio.sh",
+    "Gitnuro": "gitnuro",
+    "Obsidian": "obsidian",
+    "OTPClient": "otpclient",
+    "Disk usage": "baobab",
+
+    "Godot Engine": "~/bin/godot -p",
+    "Discord": "~/Apps/Discord/Discord",
+    "MultiMC": "multimc",
+    "qBittorrent": "qbittorrent"
+}
+
+def showMenu(options: list[str] = []) -> str | None:
+    env = environ.copy()
+
+    # WOFI
+    # env["GTK_THEME"] = "Catppuccin-Mocha-Standard-Lavender"
+    # p = Popen(["wofi", "--show=dmenu", "-i", "-"], stdin=PIPE, stdout=PIPE, stderr=DEVNULL, env = env)
+
+    # ROFI
+    p = Popen(["rofi", "-dmenu", "-p", "run"], stdin=PIPE, stdout=PIPE, stderr=DEVNULL, env = env)
+
+    stdout, stderr = p.communicate("\n".join(options).encode("utf8"))
+
+    if p.returncode != 0:
+        return None
+
+    return stdout.decode().strip()
+
+def modeCommand():
+    return showMenu()
+
+def modeApps():
+    app = showMenu(APPS.keys())
+    if app == None:
+        return None
+    return APPS[app]
+
+def modeEdit():
+    system("code '" + __file__ + "'")
+
+MODES = {mode.__name__.removeprefix("mode").lower(): mode for mode in (modeCommand, modeApps, modeEdit)}
+
+def main():
+    parser = argparse.ArgumentParser()
+    parser.add_argument("mode", type=str, choices=MODES.keys())
+    parser.add_argument("-t", "--terminal", dest="terminal", action="store_true", help="Run the command in a new terminal window")
+
+    args = parser.parse_args()
+
+    command = MODES[args.mode]()
+    if command == None:
+        return
+
+    if args.mode == "edit":
+        return
+
+    notify2.init("runmenu")
+
+    if args.terminal:
+        Popen(["terminator", "-e", command])
+    else:
+        status, output = getstatusoutput(f"fish -c '{command}'")
+        if status != 0 and output != None:
+            notif = notify2.Notification(output)
+            notif.set_timeout(3000)
+            notif.show()
+
+if __name__ == "__main__":
+    try:
+        main()
+    except:
+        pass

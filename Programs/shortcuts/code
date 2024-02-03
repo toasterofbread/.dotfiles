@@ -1,0 +1,1 @@
+/opt/visual-studio-code-insiders/bin/code-insiders --enable-features=UseOzonePlatform --ozone-platform=wayland --verbose --disable-gpu $@

@@ -1,0 +1,191 @@
+#!/usr/bin/python
+# https://gist.github.com/toasterofbread/871261b963be79f43aaae94a73b6dd31
+
+import os
+from os.path import join
+from bs4 import BeautifulSoup
+from hyperlink import URL
+import requests
+from argparse import ArgumentParser
+from spectre7 import utils
+
+from selenium import webdriver
+from selenium.webdriver.firefox.options import Options
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.common.by import By
+from selenium.webdriver.remote.webdriver import BaseWebDriver as Driver
+from selenium.common.exceptions import *
+
+PROGRAM_DESCRIPTION = """
+Downloads custom assets from a specified SteamGridDB collection, and applies them to the local steam installation.
+If multiple assets of the same type and game are in the collection, only the first is used. Icons are currently unsupported.
+Usage:
+    - Create or find the SteamGridDB collection to be used
+    - Get the ID of the collection from its URL (the integer following https://www.steamgriddb.com/collection/)
+    - Run SteamGridSync with the collection ID as an argument
+Example usage:
+steamgridsync 4483 -f /usr/bin/firefox -s ~/.steam/steam/
+"""
+
+DEFAULT_STEAM_PATH = "~/.steam/steam/"
+DEFAULT_FIREFOX_PATH = "/usr/bin/firefox-developer-edition"
+DEFAULT_LOAD_TIMEOUT = 5
+
+COLLECTION_DB_URL = "https://www.steamgriddb.com/collection/"
+GAME_DB_URL = "https://www.steamgriddb.com/game/"
+STEAM_APP_URL = "https://store.steampowered.com/app/"
+
+def getSeleniumDriver(firefox_path: str = DEFAULT_FIREFOX_PATH, headless: bool = True) -> Driver:
+    options = Options()
+    options.binary_location = firefox_path
+    options.headless = headless
+    
+    try:
+        return webdriver.Firefox(options=options)
+    except (SessionNotCreatedException, InvalidArgumentException) as e:
+        utils.err(f"Failed to create Firefox session: {e.msg}")
+        return None
+
+def getCollection(collection_id: int, driver: Driver, timeout: int = DEFAULT_LOAD_TIMEOUT) -> dict:
+    collection_url = join(COLLECTION_DB_URL, str(collection_id))
+   
+    utils.log(f"Loading collection [{collection_id}]...")
+
+    try:
+        driver.get(collection_url)
+    except WebDriverException as e:
+        prefix = "Reached error page: "
+        utils.err("An error occurred while loading the collection\n" + prefix + URL().from_text(e.msg.removeprefix(prefix)).to_iri().to_text())
+        return None
+
+    try:
+        WebDriverWait(driver, timeout).until(EC.presence_of_element_located((By.CLASS_NAME, "grids-section-header")))
+    except TimeoutException:
+        utils.err(f"Collection loading timed out after {timeout} seconds\nID: {collection_id}\nURL: {collection_url}")
+        return None
+    
+    utils.log("Collection loaded successfully. Parsing assets...")
+
+    soup = BeautifulSoup(driver.page_source, "html.parser")
+    asset_types = soup.find_all("div", class_="asset-container compact")
+
+    ret = {}
+
+    for asset_type in asset_types:
+        for asset in asset_type.find_all("div", class_="asset"):
+            game = asset.find("a", class_="game-name")
+            game_id = int(game["href"].removeprefix("/game/"))
+            data_type = asset_type["data-type"]
+            
+            if not game_id in ret:
+                ret[game_id] = {}
+            
+            if data_type in ret[game_id]:
+                utils.warn(f"Multiple {data_type} assets found for game [{game.contents[0]}], using only the first one")
+                continue
+            
+            ret[game_id][data_type] = asset.find("div", class_="btn-download pill hover-fade").a["href"]
+        
+    return ret
+
+def getGameInfo(db_game_id: int, driver: Driver, timeout: int = DEFAULT_LOAD_TIMEOUT) -> dict:
+    utils.log(f"Loading game [{db_game_id}] to retrieve Steam App ID...")
+    
+    game_url = join(GAME_DB_URL, str(db_game_id))
+    driver.get(game_url)
+
+    try:
+        steam_button = WebDriverWait(driver, timeout).until(EC.presence_of_element_located((By.XPATH, f"//a[starts-with(@href, '{STEAM_APP_URL}')]")))
+    except TimeoutException:
+        utils.err(f"Game loading timed out after {timeout} seconds\nID: {db_game_id}\nURL: {game_url}")
+        return -1
+    
+    soup = BeautifulSoup(driver.page_source, "html.parser")
+    return {
+        "app_id": int(steam_button.get_property("href").removeprefix(STEAM_APP_URL).split("/", 1)[0]),
+        "name": soup.find("div", class_="container game").div.div.h1.contents[0].strip()
+    }
+
+def getGridConfigPath(steam_path: str = DEFAULT_STEAM_PATH) -> str:
+    
+    steam_path = os.path.expanduser(steam_path)
+    userdata = join(steam_path, "userdata")
+    if not os.path.isdir(userdata):
+        utils.err(f"The Steam directory at '{steam_path}' does not contain a userdata subdirectory")
+        return ""
+    
+    for path in os.listdir(userdata):
+        if os.path.isdir(join(userdata, path)) and path.isdigit():
+            ret = join(userdata, path, "config/grid")
+            utils.ensureDirExists(ret)
+            return ret
+    
+    utils.err(f"The Steam userdata directory at {userdata} is invalid")
+    return ""
+
+def getSteamGridAssetName(app_id: int, griddb_type: str, extension: str) -> str:
+    return str(app_id) + {
+        "grid": "p",
+        "hero": "_hero",
+        "logo": "_logo",
+        "icon": None
+    }[griddb_type] + "." + extension
+
+def main():
+    
+    parser = ArgumentParser(description=PROGRAM_DESCRIPTION)
+
+    parser.add_argument("collection_id", type=int, help="ID of the SteamGridDB collection to use. It can be found in the URL proceeding https://www.steamgriddb.com/collection//")
+
+    parser.add_argument("-f", "--firefox-path", dest="firefox_path", type=str, default=DEFAULT_FIREFOX_PATH, help="Path to the Firefox binary to use for scraping collection information")
+    parser.add_argument("-s", "--steam-path", dest="steam_path", type=str, default=DEFAULT_STEAM_PATH, help=f"Path to the local Steam folder in which to store the custom assets. This is the folder which contains subdirectories such as {utils.format_colour('cyan', 'appcache')}, {utils.format_colour('cyan', 'steamapps')}, and {utils.format_colour('cyan', 'userdata')}.")
+    parser.add_argument("-t", "--timeout", dest="timeout", type=int, default=DEFAULT_LOAD_TIMEOUT, help="The timeout to use for downloading content in seconds")
+    parser.add_argument("-d", "--disable-headless", dest="headless", action="store_false", help="Run scraping browser in headless mode (shows the browser window)")
+    
+    args = parser.parse_args()
+    
+    utils.on_err = exit
+    driver = getSeleniumDriver(args.firefox_path, args.headless)
+    
+    def onError():
+        driver.close()
+        exit()
+    utils.on_err = onError
+
+    collection = getCollection(args.collection_id, driver)
+    
+    grid_path = getGridConfigPath()
+    icon_warning_issued = False
+    for game_id in collection:
+        info = getGameInfo(game_id, driver)
+        
+        utils.log(f"Downloading icons for game [{info['name']}]...")
+        
+        for type in collection[game_id]:
+            if type == "icon":
+                if not icon_warning_issued:
+                    icon_warning_issued = True
+                    utils.warn("Icons are not currently supported")
+                continue
+            
+            image_url = collection[game_id][type]
+            image = requests.get(image_url)
+            
+            if image.status_code != 200:
+                utils.warn(f"Failed to download {type} asset at url {image_url}")
+                continue
+            
+            f = open(join(grid_path, getSteamGridAssetName(info["app_id"], type, image_url.split(".")[-1])), "wb")
+            f.write(image.content)
+            f.close()
+
+    driver.close()
+    os.remove("geckodriver.log")
+    utils.printc("magenta", "\nCompleted successfully")
+
+if __name__ == "__main__":
+    try:
+        main()
+    except KeyboardInterrupt:
+        utils.printc("magenta", "\n\nExiting...")

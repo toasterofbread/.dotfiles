@@ -1,0 +1,21 @@
+{
+    "theme": "catppuccin-mocha",
+    "scrollSensitivity": 1.5,
+    "files.compactDirectories": false,
+    "files.toggleFolderMode": "singleClick",
+    "terminal.enableFocusEditorOnEsc": true,
+    "python.terminal.activateVirtualEnv": true,
+    "showShortcuts": false,
+    "showEmptyStateOnLastClosedWindow": false,
+    "editor.ligatures": false,
+    "editor.fontSize": 14.0,
+    "editor.showInlayHints": false,
+    "editor.showCodeVision": false,
+    "editor.showVisualGuides": false,
+    "editor.guides": [],
+    "keymap": "pc-vscode",
+    "zoomLevel": 1.0,
+    "editor.previewTab": false,
+    "goto_panel.showShortcuts": false,
+    "autoSave": "AfterDelay"
+}

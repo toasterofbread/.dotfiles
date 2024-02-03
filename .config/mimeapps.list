@@ -1,0 +1,7 @@
+[Default Applications]
+application/x-shellscript=org.gnome.gedit.desktop
+text/x-log=org.gnome.gedit.desktop
+
+[Added Associations]
+application/x-shellscript=org.gnome.gedit.desktop;
+text/x-log=org.gnome.gedit.desktop;

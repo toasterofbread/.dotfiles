@@ -1,0 +1,95 @@
+#!/usr/bin/python3
+
+import subprocess
+import argparse
+import re
+import json
+from datetime import datetime
+from os import path
+from spectre7.utils import ensureDirExists
+import notify2
+import pyclip
+
+DEFAULT_DIRECTORY = "~/Media/Screenshots"
+NOTIFICATION_TIMEOUT = 1500
+
+def notify(msg: str):
+
+    if not notify2.initted:
+        return
+
+    notif = notify2.Notification(msg)
+    notif.set_timeout(NOTIFICATION_TIMEOUT)
+    notif.show()
+
+def storeImageToClipboard(data: bytes):
+    pyclip.copy(data)
+
+def takeScreenshot(region: str | None, dir: str, file: str | None, clipboard: bool):
+    assert(clipboard or file)
+
+    command = ["grim"]
+    if region:
+        command += ["-g", region]
+    command.append("-")
+
+    data = subprocess.check_output(command)
+
+    if clipboard:
+        storeImageToClipboard(data)
+    
+    if file:
+        ensureDirExists(dir)
+        f = open(path.expanduser(path.join(dir, file)), "wb")
+        f.write(data)
+        f.close()
+    
+    if clipboard and file:
+        notify(f"Copied to clipboard and saved to {dir}")
+    elif clipboard:
+        notify(f"Copied to clipboard")
+    else:
+        notify(f"Saved to {dir}")
+
+def captureAll(dir: str, file: str | None, clipboard: bool):
+    return takeScreenshot(None, dir, file, clipboard)
+
+def captureActiveWindow(dir: str, file: str | None, clipboard: bool):
+    active_window = json.loads(subprocess.check_output(["hyprctl", "activewindow", "-j"]))
+    print(active_window)
+    region = f"{active_window['at'][0]},{active_window['at'][1]} {active_window['size'][0]}x{active_window['size'][1]}"
+
+    if len(active_window["class"]) == 0:
+        subdir = active_window["title"]
+    else:
+        subdir = active_window["class"]
+
+    return takeScreenshot(region, path.join(dir, subdir), file, clipboard)
+
+def captureArea(dir: str, file: str | None, clipboard: bool):
+    region = subprocess.check_output(["slurp"]).decode().strip()
+    return takeScreenshot(region, dir, file, clipboard)
+
+def main():
+    MODES = {re.sub(r'(?<!^)(?=[A-Z])', '_', method.__name__).lower().removeprefix("capture_"): method for method in (captureAll, captureActiveWindow, captureArea)}
+    parser = argparse.ArgumentParser(description="Simple screenshot utility for Wayland")
+
+    parser.add_argument("mode", type=str, choices=MODES.keys(), nargs="+", help="The screenshot mode to use")
+    parser.add_argument("-c", "--clipboard", dest="clipboard", action="store_true", help="Store the raw capture to the clipboard")
+    parser.add_argument("-f", "--filename", dest="filename", type=str, help="The filename in which to store the screenshot")
+    parser.add_argument("-d", "--directory", dest="directory", type=str, default=DEFAULT_DIRECTORY, help="The directory in which to store the screenshot")
+    parser.add_argument("-s", "--silent", dest="silent", action="store_true", help="Do not send notifications")
+
+    args = parser.parse_args()
+
+    if (not args.clipboard and args.filename is None) or args.filename == "default":
+        args.filename = datetime.now().strftime("%Y-%m-%d-%H-%M-%S") + ".png"
+    
+    if not args.silent:
+        notify2.init("Screenshot")
+
+    method = MODES[args.mode[0]]
+    method(path.expanduser(args.directory), args.filename, args.clipboard)
+
+if __name__ == "__main__":
+    main()

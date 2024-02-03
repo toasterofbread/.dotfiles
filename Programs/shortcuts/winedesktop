@@ -1,0 +1,1 @@
+wine explorer /desktop=Ex,1920x1080 $@
