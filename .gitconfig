@@ -12,3 +12,6 @@
 	editor = nano
 [init]
 	defaultBranch = main
+[safe]
+	directory = /home/toaster/Downloads/ubuntu/spmp-server/spmp-mpv
+	directory = /home/toaster/Projects/Compose/space/spmp-server

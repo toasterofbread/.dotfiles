@@ -1,5 +1,6 @@
 source /opt/asdf-vm/asdf.fish
 
+alias spmplog="adb logcat | grep --color=never -F (adb shell ps | grep com.toasterofbread.spmp.debug | tr -s [:space:] ' ' | cut -d' ' -f2)"
 alias song="cd ~/Desktop/曲 && ~/bin/song"
 alias fleet="jetbrains-fleet"
 

@@ -23,7 +23,7 @@ APPS = {
     "qBittorrent": "qbittorrent"
 }
 
-def showMenu(options: list[str] = []) -> str | None:
+def showMenu(options: list[str] = [], args: list[str] = []) -> str | None:
     env = environ.copy()
 
     # WOFI
@@ -31,7 +31,7 @@ def showMenu(options: list[str] = []) -> str | None:
     # p = Popen(["wofi", "--show=dmenu", "-i", "-"], stdin=PIPE, stdout=PIPE, stderr=DEVNULL, env = env)
 
     # ROFI
-    p = Popen(["rofi", "-dmenu", "-p", "run"], stdin=PIPE, stdout=PIPE, stderr=DEVNULL, env = env)
+    p = Popen(["rofi", "-dmenu", "-p", "run"] + args, stdin=PIPE, stdout=PIPE, stderr=DEVNULL, env = env)
 
     stdout, stderr = p.communicate("\n".join(options).encode("utf8"))
 
@@ -41,7 +41,7 @@ def showMenu(options: list[str] = []) -> str | None:
     return stdout.decode().strip()
 
 def modeCommand():
-    return showMenu()
+    return showMenu(args = ["-config", "~/.config/rofi/config-mini.rasi"])
 
 def modeApps():
     app = showMenu(APPS.keys())

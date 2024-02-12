@@ -11,7 +11,7 @@
     "@disabled.text": "Subtext0",
     "@error.fill": "Red",
     "@error.text": "Text",
-    "@focused.border": "Mauve",
+    "@focused.border": "Lavender",
     "@hovered.fill": "Surface1",
     "@placeholder.text": "Overlay0",
     "@secondary.text": "Subtext1",
@@ -36,7 +36,7 @@
     "checkbox.@focused.border": "Transparent",
     "checkbox.border": "Surface1",
     "checkbox.fill": "Base",
-    "checkbox.icon": "Mauve",
+    "checkbox.icon": "Lavender",
     "completion.match.fill": "Transparent",
     "completion.match.text": "Flamingo",
     "dangerous.button.@disabled.border": "Transparent",
@@ -73,12 +73,12 @@
     "editor.currentLine.@focused.fill": "6c70861a",
     "editor.currentLine.fill": "6c70861a",
     "editor.fill": "Base",
-    "editor.lineNumber.@selected.text": "Mauve",
+    "editor.lineNumber.@selected.text": "Lavender",
     "editor.lineNumber.text": "Subtext0",
     "editor.text": "Text",
     "editor.whitespace.text": "Text",
     "fill": "Base",
-    "focusRing": "Mauve",
+    "focusRing": "Lavender",
     "header.fill": "Crust",
     "icon": "Subtext1",
     "icon.blue.fill": "Blue",
@@ -95,7 +95,7 @@
     "icon.button.@selected.@hovered.text": "Text",
     "icon.button.@selected.@pressed.text": "Text",
     "icon.button.@selected.fill": "Transparent",
-    "icon.button.@selected.text": "Mauve",
+    "icon.button.@selected.text": "Lavender",
     "icon.button.border": "Transparent",
     "icon.button.fill": "Transparent",
     "icon.gray.fill": "Overlay2",
@@ -115,7 +115,7 @@
     "interline.editor.currentLine.fill": "Base",
     "link.focusRing": "Blue",
     "link.text": "Blue",
-    "list.cursor.border": "Mauve",
+    "list.cursor.border": "Lavender",
     "mainSplit.separator.fill": "Base",
     "match.fill": "Yellow",
     "match.text": "Crust",
@@ -123,14 +123,14 @@
     "primary.button.@disabled.border": "Transparent",
     "primary.button.@disabled.fill": "Overlay1",
     "primary.button.@disabled.text": "Subtext0",
-    "primary.button.@focused.border": "Mauve",
-    "primary.button.@hovered.fill": "Mauve",
+    "primary.button.@focused.border": "Lavender",
+    "primary.button.@hovered.fill": "Lavender",
     "primary.button.@hovered.text": "Crust",
     "primary.button.border": "Transparent",
-    "primary.button.fill": "Mauve",
-    "primary.button.focusRing": "Mauve",
+    "primary.button.fill": "Lavender",
+    "primary.button.focusRing": "Lavender",
     "primary.button.text": "Crust",
-    "progress.@indeterminate.@gradient.fill": "Mauve",
+    "progress.@indeterminate.@gradient.fill": "Lavender",
     "progress.container.fill": "Crust",
     "progress.fill": "Lavender",
     "scrollbar.@dimmed.fill": "ffffff20%",
@@ -145,9 +145,9 @@
     "simpleToggle.circle.fill": "Text",
     "simpleToggle.strip.@disabled.@hovered.fill": "Overlay1",
     "simpleToggle.strip.@disabled.fill": "Overlay1",
-    "simpleToggle.strip.@hovered.fill": "Mauve",
-    "simpleToggle.strip.fill": "Mauve",
-    "tab.@focused.@selected.border": "Mauve",
+    "simpleToggle.strip.@hovered.fill": "Lavender",
+    "simpleToggle.strip.fill": "Lavender",
+    "tab.@focused.@selected.border": "Lavender",
     "tab.@focused.@selected.fill": "Surface1",
     "tab.@hovered.fill": "Mantle",
     "tab.@selected.fill": "Surface0",
@@ -166,8 +166,8 @@
     "terminal.ansiBrightCyan.text": "Teal",
     "terminal.ansiBrightGreen.fill": "Green",
     "terminal.ansiBrightGreen.text": "Green",
-    "terminal.ansiBrightMagenta.fill": "Mauve",
-    "terminal.ansiBrightMagenta.text": "Mauve",
+    "terminal.ansiBrightMagenta.fill": "Lavender",
+    "terminal.ansiBrightMagenta.text": "Lavender",
     "terminal.ansiBrightRed.fill": "Maroon",
     "terminal.ansiBrightRed.text": "Maroon",
     "terminal.ansiBrightWhite.fill": "Mantle",
@@ -190,24 +190,24 @@
     "toggle.@disabled.border": "Transparent",
     "toggle.@disabled.fill": "Overlay1",
     "toggle.@disabled.text": "Subtext0",
-    "toggle.@focused.border": "Mauve",
+    "toggle.@focused.border": "Lavender",
     "toggle.@hovered.fill": "Lavender",
     "toggle.@pressed.fill": "Lavender",
     "toggle.@selected.@disabled.fill": "Overlay1",
-    "toggle.@selected.@focused.@hovered.fill": "Mauve",
-    "toggle.@selected.@focused.@pressed.fill": "Mauve",
+    "toggle.@selected.@focused.@hovered.fill": "Lavender",
+    "toggle.@selected.@focused.@pressed.fill": "Lavender",
     "toggle.@selected.@focused.border": "Lavender",
-    "toggle.@selected.@focused.fill": "Mauve",
-    "toggle.@selected.@hovered.fill": "Mauve",
-    "toggle.@selected.@pressed.fill": "Mauve",
-    "toggle.@selected.border": "Mauve",
-    "toggle.@selected.fill": "Mauve",
+    "toggle.@selected.@focused.fill": "Lavender",
+    "toggle.@selected.@hovered.fill": "Lavender",
+    "toggle.@selected.@pressed.fill": "Lavender",
+    "toggle.@selected.border": "Lavender",
+    "toggle.@selected.fill": "Lavender",
     "toggle.border": "Surface0",
     "toggle.fill": "Surface0",
     "tool.fill": "Mantle",
     "tooltip.fill": "Base",
-    "tree.@focused.border": "Mauve",
-    "tree.cursor.border": "Mauve",
+    "tree.@focused.border": "Lavender",
+    "tree.cursor.border": "Lavender",
     "windows.close.button.@hovered.fill": "Red",
     "windows.close.button.@hovered.text": "Text",
     "windows.close.button.@pressed.fill": "Red",
@@ -223,7 +223,7 @@
       "layer": 20
     },
     "boolean": {
-      "fgColor": "Mauve",
+      "fgColor": "Lavender",
       "layer": 10
     },
     "comment": {
@@ -436,7 +436,7 @@
       "layer": 20
     },
     "identifier.this": {
-      "fgColor": "Mauve",
+      "fgColor": "Lavender",
       "layer": 20
     },
     "identifier.type": {
@@ -518,7 +518,7 @@
       "layer": 20
     },
     "keyword.typeModifier": {
-      "fgColor": "Mauve",
+      "fgColor": "Lavender",
       "layer": 20
     },
     "link": {},
@@ -692,7 +692,7 @@
       "layer": 20
     },
     "selector.tag.css": {
-      "fgColor": "Mauve",
+      "fgColor": "Lavender",
       "layer": 20
     },
     "snippet": {
@@ -737,11 +737,11 @@
       "layer": 20
     },
     "tagName.custom.html": {
-      "fgColor": "Mauve",
+      "fgColor": "Lavender",
       "layer": 20
     },
     "tagName.html": {
-      "fgColor": "Mauve",
+      "fgColor": "Lavender",
       "layer": 20
     },
     "transparent": {},
@@ -752,6 +752,25 @@
     "value.yaml": {
       "fgColor": "Text",
       "layer": 2
+    },
+
+    "editor.indent.guide": {
+      "fgColor": "45475a",
+//      "decoration": {
+//        "style": "DASHED"
+//      }
+    },
+    "editor.indent.guide.current": {
+      "fgColor": "Lavender",
+//      "decoration": {
+//        "style": "DASHED"
+//      }
+    },
+    "editor.indent.guide.declaration": {
+      "fgColor": "45475a"
+    },
+    "editor.indent.guide.declaration.current": {
+      "fgColor": "Lavender"
     }
   },
   "palette": {

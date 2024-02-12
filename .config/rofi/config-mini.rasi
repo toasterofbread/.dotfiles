@@ -15,4 +15,4 @@ configuration{
     fake-transparency: true;
 }
 
-@theme "catppuccin-mocha"
+@theme "catppuccin-mocha-mini"

@@ -30,12 +30,12 @@ killall lxpolkit
 # Discord
 if ! pgrep -x "Discord" > /dev/null
 then
-    ~/Apps/Discord/Discord --start-minimized &
+    ~/Programs/applications/Discord/Discord --start-minimized &
 fi
 
 # Steam
-killall steam
-steam -silent &
+#killall steam
+#steam -silent &
 
 # OBS replay buffer (RIP replay-sorcery?)
 #killall obs

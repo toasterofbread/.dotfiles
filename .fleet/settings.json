@@ -4,9 +4,9 @@
     "files.compactDirectories": false,
     "files.toggleFolderMode": "singleClick",
     "terminal.enableFocusEditorOnEsc": true,
-    "python.terminal.activateVirtualEnv": true,
+    "python.terminal.activateVirtualEnv": false,
     "showShortcuts": false,
-    "showEmptyStateOnLastClosedWindow": false,
+    "showEmptyStateOnLastClosedWindow": true,
     "editor.ligatures": false,
     "editor.fontSize": 14.0,
     "editor.showInlayHints": false,
@@ -17,5 +17,13 @@
     "zoomLevel": 1.0,
     "editor.previewTab": false,
     "goto_panel.showShortcuts": false,
-    "autoSave": "AfterDelay"
+    "autoSave": "AfterDelay",
+    "editor.showFileTemplatesSuggestion": false,
+    "aiCompletion.enabled": false,
+    "git.autoFetch": false,
+    "terminal.bell": false,
+    "nodejs.terminal.addNodeModules": false,
+    "fus.sendAllowed": false,
+    "restoreWorkspacesOnStartup": false,
+    "createScratchOnNewFile": true
 }
