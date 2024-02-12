@@ -42,7 +42,8 @@ alias windows="sudo grub-reboot 'Windows 10 (on /dev/sda1)' && reboot"
 alias rebootwindows=windows
 alias yesterdaycommit="git commit --date='Yesterday at 23:00'"
 alias daybeforeyesterdaycommit="git commit --date='Two days ago at 23:00'"
-alias commit="gedit ~/Desktop/Commit"
+alias lite-xl="SDL_VIDEODRIVER=wayland /usr/bin/lite-xl"
+alias commit="SDL_VIDEODRIVER=wayland /usr/bin/lite-xl ~/Desktop/Commit"
 alias amen="git add . && git status && gitsummary"
 alias gedit="gedit -s"
 

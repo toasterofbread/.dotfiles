@@ -1,5 +1,5 @@
 * {
-    bg-col:  rgba(30, 30, 46, 0.2);
+    bg-col:  rgba(30, 30, 46, 0.25);
     bg-col-light: #1e1e2e;
     border-col: rgba(180, 190, 254, 0);
     selected-col: rgba(180, 190, 254, 1.0);
