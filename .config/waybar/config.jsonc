@@ -1,0 +1,87 @@
+{
+    // Waybar
+    "layer": "top",
+    "margin-top": 4,
+    "margin-left": 4,
+    "margin-bottom": 4,
+    "position": "left",
+    "spacing": 0,
+    "modules-left": [
+        "custom/month_value", "custom/month_label", "custom/day_value", "custom/day_label",
+        "custom/hour_value", "custom/hour_label", "custom/minute_value", "custom/minute_label",
+        "hyprland/workspaces"
+    ],
+    "modules-center": [
+
+    ],
+    "modules-right": [
+        "pulseaudio/slider",
+        "memory",
+        "custom/disk",
+        "tray",
+        "network"
+    ],
+
+    // Date/time modules
+    "custom/month_value": {
+        "exec": "date +\"%m\"",
+        "interval": 60
+    },
+    "custom/month_label": {
+        "format": "月"
+    },
+    "custom/day_value": {
+        "exec": "date +\"%d\"",
+        "interval": 60
+    },
+    "custom/day_label": {
+        "format": "日"
+    },
+    "custom/hour_value": {
+        "exec": "date +\"%H\"",
+        "interval": 60
+    },
+    "custom/hour_label": {
+        "format": "時"
+    },
+    "custom/minute_value": {
+        "exec": "date +\"%M\"",
+        "interval": 60
+    },
+    "custom/minute_label": {
+        "format": "分"
+    },
+
+    // Other custom modules
+    "custom/disk": {
+        "exec": "df -h / | tail -1 | tr -s ' ' | cut -d' ' -f4",
+        "interval": 60,
+        "rotate": 90
+    },
+
+    // Other modules
+    "hyprland/workspaces": {
+        "all-outputs": false,
+        "format": ""
+    },
+    "memory": {
+        "interval": 10,
+        "format": "{used}",
+        "rotate": 90
+    },
+    "tray": {
+        "icon-size": 18,
+        "spacing": 10,
+        "reverse-direction": true
+    },
+    "network": {
+        "format-wifi": "",
+        "format-ethernet": "🖧",
+        "format-disconnected": "❌",
+        "tooltip-format": "{ipaddr} {ifname}",
+        "tooltip-format-wifi": "{ipaddr} {ifname} ({essid})"
+    },
+    "pulseaudio/slider": {
+        "orientation": "vertical"
+    }
+}
