@@ -1,0 +1,4 @@
+# https://www.reddit.com/r/flatpak/comments/igmhu3/enable_rich_presence_in_discord/
+ln -sf {app/com.discordapp.Discord,$XDG_RUNTIME_DIR}/discord-ipc-0
+
+flatpak run com.discordapp.Discord $@

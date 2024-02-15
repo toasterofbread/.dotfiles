@@ -9,7 +9,7 @@ alias obsreplay="env QT_QPA_PLATFORM=wayland OBS_VKCAPTURE_LINEAR=1 OBS_VKCAPTUR
 alias ppsspp="PPSSPPSDL"
 alias gitnuro="/usr/lib/jvm/java-17-openjdk/bin/java -jar ~/bin/Gitnuro-linux-x86_64-1.3.1.jar"
 
-alias clean="sudo pacman -Rcns (pacman -Qdtq) ; sudo pacman -Sc ; flatpak uninstall --unused ; pip3.8 cache purge ; pip3.11 cache purge"
+alias clean="sudo pacman -Rcns (pacman -Qdtq) ; sudo pacman -Sc ; flatpak uninstall --unused ; pip cache purge"
 alias cacheclean="sudo pacman -Sc ; "
 
 alias fishrc="nano ~/.config/fish/config.fish"
@@ -33,7 +33,7 @@ alias pacs="pacman -Qet"
 alias pacu="sudo pacman -Syu"
 alias history="gedit /home/toaster/.local/share/fish/fish_history"
 #alias winedesktop="wine explorer /desktop=Ex,1920x1080 "
-alias pip3.8="python3.8 -m pip"
+alias pip3.8="python3.11 -m pip"
 alias http="python -m http.server"
 alias copy="wl-copy"
 alias calc="gnome-calculator"
@@ -43,6 +43,7 @@ alias rebootwindows=windows
 alias yesterdaycommit="git commit --date='Yesterday at 23:00'"
 alias daybeforeyesterdaycommit="git commit --date='Two days ago at 23:00'"
 alias lite-xl="SDL_VIDEODRIVER=wayland /usr/bin/lite-xl"
+alias lite="SDL_VIDEODRIVER=wayland /usr/bin/lite-xl"
 alias commit="SDL_VIDEODRIVER=wayland /usr/bin/lite-xl ~/Desktop/Commit"
 alias amen="git add . && git status && gitsummary"
 alias gedit="gedit -s"
@@ -71,6 +72,7 @@ alias dotfiles='/usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME'
 
 # Applications
 alias discord="~/Programs/applications/Discord/Discord"
+alias discord-flatpak="flatpak run com.discordapp.Discord"
 alias todo="nano ~/Documents/TODO"
 alias ctl="hyprctl"
 alias container="hyprcontainer"
