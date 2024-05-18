@@ -1,0 +1,116 @@
+#!/usr/bin/python
+
+from argparse import ArgumentParser
+import requests
+import json
+import hashlib
+from os import makedirs
+from os import path
+from os.path import join
+
+LOADER = "fabric"
+
+def downloadMods(mods: list[dict], game_version: str, mods_dir: str, resources_dir: str, shaders_dir: str):
+    available = 0
+
+    for index, mod in enumerate(mods):
+        match mod["project_type"]:
+            case "mod":
+                mod_type = "MOD"
+            case "resourcepack":
+                mod_type = "RES"
+            case "shader":
+                mod_type = "SHD"
+            case _:
+                raise Exception(f"Unknown project type: {mod["project_type"]}")
+
+        summary = f"{index}: {mod_type} {mod["title"]}"
+
+        if game_version not in mod["game_versions"]:
+            summary += " (MISSING VERSION)"
+        else:
+            available += 1
+
+        print(summary)
+
+    begin = input("Begin download? (y/n)\n").lower()
+    if begin != "y":
+        return
+
+    dirs = {
+        "mod": mods_dir,
+        "resourcepack": resources_dir,
+        "shader": shaders_dir
+    }
+
+    for dir in dirs.values():
+        if not path.exists(dir):
+            makedirs(dir)
+
+    downloaded = 0
+
+    for mod in mods:
+        if game_version not in mod["game_versions"]:
+            continue
+
+        version = getModVersions(mod, game_version)[0]
+
+        print(f"Downloading {mod["title"]} ({downloaded + 1} of {available})")
+
+        for file in version["files"]:
+            if not file["primary"]:
+                continue
+
+            destination = join(dirs[mod["project_type"]], file["filename"])
+            if path.exists(destination):
+                print(f"Skipping {file["filename"]}, already exists")
+                break
+
+            response = requests.get(file["url"])
+            hashlib.sha512(response.content).digest()
+
+            their_sha512 = file["hashes"]["sha512"]
+            our_sha512 = hashlib.sha512(response.content).hexdigest()
+
+            if our_sha512 != their_sha512:
+                print(f"File hash mismatch ({file["url"]}): expected {their_sha512} but got {our_sha512}")
+                return
+
+            with open(destination, "wb") as f:
+                f.write(response.content)
+
+            break
+
+        downloaded += 1
+
+    print("Done")
+
+def getModVersions(mod: dict, game_version: str):
+    params = f"game_versions=[\"{game_version}\"]"
+
+    if mod["project_type"] == "mod":
+        params += f"&loaders={json.dumps([LOADER])}"
+
+    return requests.get(f"https://api.modrinth.com/v2/project/{mod["id"]}/version?{params}").json()
+
+def main():
+    parser = ArgumentParser()
+    parser.add_argument("file")
+    parser.add_argument("game_version")
+    parser.add_argument("-o", "--output", default=".")
+
+    args = parser.parse_args()
+
+    with open(args.file, "r") as f:
+        data = json.loads(f.read())
+
+    downloadMods(
+        data,
+        args.game_version,
+        mods_dir = join(args.output, "mods"),
+        resources_dir = join(args.output, "resourcepacks"),
+        shaders_dir = join(args.output, "shaderpacks")
+    )
+
+if __name__ == "__main__":
+    main()

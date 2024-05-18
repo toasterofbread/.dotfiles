@@ -1,13 +1,23 @@
 source /opt/asdf-vm/asdf.fish
 
-alias spmplog="adb logcat | grep --color=never -F (adb shell ps | grep com.toasterofbread.spmp.debug | tr -s [:space:] ' ' | cut -d' ' -f2)"
+alias dollama="sudo docker start -d -v ollama:/root/.ollama -p 11434:11434 --name ollama -e HSA_OVERRIDE_GFX_VERSION='10.3.0' -e OLLAMA_KEEP_ALIVE=-1 --group-add=video --ipc=host  --privileged --cap-add=SYS_PTRACE --security-opt seccomp=unconfined  ollama/ollama:rocm"
+
+alias anime="cd /mnt/jedi/Movies/Series/[Anime]"
+alias vpn="sudo openvpn --config /etc/openvpn/client/default.ovpn"
+alias releasenotes="git log --reverse --pretty=format:'- %s%b%n' "
+
+# I cannot fucking find where this sigsegv happens
+#alias spms="gdb -ex run spms"
+
+#alias spmplog="adb logcat | grep --color=never -F (adb shell ps | grep com.toasterofbread.spmp.debug | tr -s [:space:] ' ' | cut -d' ' -f2)"
+#alias spmplogrelease="adb logcat | grep --color=never -F (adb shell ps | grep com.toasterofbread.spmp | tr -s [:space:] ' ' | cut -d' ' -f2)"
 alias song="cd ~/Desktop/曲 && ~/bin/song"
-alias fleet="jetbrains-fleet"
+alias fleet="JAVA_HOME=/usr/lib/jvm/java-17-openjdk jetbrains-fleet"
 
 alias code="/opt/visual-studio-code-insiders/bin/code-insiders"
 alias obsreplay="env QT_QPA_PLATFORM=wayland OBS_VKCAPTURE_LINEAR=1 OBS_VKCAPTURE=1 VK_ICD_FILENAMES=/usr/share/vulkan/icd.d/amd_pro_icd64.json obs --enable-feature=UseOzonePlatform --ozone-platform=wayland --startreplaybuffer --minimize-to-tray"
 alias ppsspp="PPSSPPSDL"
-alias gitnuro="/usr/lib/jvm/java-17-openjdk/bin/java -jar ~/bin/Gitnuro-linux-x86_64-1.3.1.jar"
+alias gitnuro="/usr/lib/jvm/java-17-openjdk/bin/java -jar ~/Programs/applications/bin/Gitnuro-linux-x86_64-1.3.1.jar"
 
 alias clean="sudo pacman -Rcns (pacman -Qdtq) ; sudo pacman -Sc ; flatpak uninstall --unused ; pip cache purge"
 alias cacheclean="sudo pacman -Sc ; "
@@ -33,8 +43,8 @@ alias pacs="pacman -Qet"
 alias pacu="sudo pacman -Syu"
 alias history="gedit /home/toaster/.local/share/fish/fish_history"
 #alias winedesktop="wine explorer /desktop=Ex,1920x1080 "
-alias pip3.8="python3.11 -m pip"
-alias http="python -m http.server"
+#alias pip3.8="python3.11 -m pip"
+#alias http="python -m http.server"
 alias copy="wl-copy"
 alias calc="gnome-calculator"
 alias size="du -sh"
@@ -48,11 +58,11 @@ alias commit="SDL_VIDEODRIVER=wayland /usr/bin/lite-xl ~/Desktop/Commit"
 alias amen="git add . && git status && gitsummary"
 alias gedit="gedit -s"
 
-alias python=python3.11
-alias python3=python3.8
+#alias python=python3.11
+#alias python3=python3.8
 
-alias pip="python3.11 -m pip"
-alias pip3="python3.8 -m pip"
+#alias pip="python3.11 -m pip"
+#alias pip3="python3.8 -m pip"
 
 alias protontricks="flatpak run com.github.Matoking.protontricks"
 alias flatseal="flatpak run com.github.tchx84.Flatseal"
@@ -64,9 +74,10 @@ alias t=tree
 alias link=ln
 alias n=nano
 alias display=cat
-alias find=fzf
+alias find="fzf -e"
 alias unlock="sudo loginctl unlock-sessions && exit"
 alias rm="rm-safe"
+alias bat="bat --theme='Catppuccin-mocha'"
 
 alias dotfiles='/usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME'
 
@@ -106,3 +117,4 @@ end
 
 # The next line updates PATH for the Google Cloud SDK.
 if [ -f '/home/toaster/Downloads/google-cloud-cli-447.0.0-linux-x86_64/google-cloud-sdk/path.fish.inc' ]; . '/home/toaster/Downloads/google-cloud-cli-447.0.0-linux-x86_64/google-cloud-sdk/path.fish.inc'; end
+

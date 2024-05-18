@@ -86,7 +86,6 @@ windowrulev2 = animation popin, floating:1
 windowrulev2 = stayfocused, class:Rofi
 windowrulev2 = stayfocused, title:Create Folder
 #windowrulev2 = stayfocused, class:jetbrains-studio, floating:1
-#windowrulev2 = opacity 0.7 0.7,title:^(fish|F5 Anything)$
 
 # --- KEYBINDS ---
 

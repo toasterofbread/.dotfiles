@@ -1,6 +1,7 @@
 # This file contains fish universal variable definitions.
 # VERSION: 3.0
 SETUVAR --export GTK_THEME:Catppuccin\x2dMocha\x2dStandard\x2dLavender\x2ddark
+SETUVAR VITASDK:/usr/local/vitasdk
 SETUVAR __fish_initialized:3400
 SETUVAR _fisher_catppuccin_2F_fish_files:\x7e/\x2econfig/fish/themes/Catppuccin\x20Frappe\x2etheme\x1e\x7e/\x2econfig/fish/themes/Catppuccin\x20Latte\x2etheme\x1e\x7e/\x2econfig/fish/themes/Catppuccin\x20Macchiato\x2etheme\x1e\x7e/\x2econfig/fish/themes/Catppuccin\x20Mocha\x2etheme
 SETUVAR _fisher_plugins:catppuccin/fish\x1ereitzig/sdkman\x2dfor\x2dfish\x40v2\x2e0\x2e0
@@ -45,4 +46,4 @@ SETUVAR fish_pager_color_selected_background:\x1d
 SETUVAR fish_pager_color_selected_completion:\x1d
 SETUVAR fish_pager_color_selected_description:\x1d
 SETUVAR fish_pager_color_selected_prefix:\x1d
-SETUVAR fish_user_paths:/home/toaster/\x2elocal/bin\x1e/home/toaster/Programs/shortcuts\x1e/home/toaster/Programs/scripts\x1e/home/toaster/Programs/applications/bin
+SETUVAR fish_user_paths:/opt/android\x2dsdk/build\x2dtools/34\x2e0\x2e0\x1e/home/toaster/\x2elocal/bin\x1e/home/toaster/Programs/shortcuts\x1e/home/toaster/Programs/scripts\x1e/home/toaster/Programs/applications/bin

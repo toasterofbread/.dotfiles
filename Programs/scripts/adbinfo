@@ -1,0 +1,1 @@
+adb logcat --pid=$(adbpid $1) "*:I" | grep -vE 'OpenGLRenderer|Codec2Client|CCodecConfig|concurrent copying GC|MediaCodec|CCodec' #| sed 's/^[^a-zA-Z]*//'

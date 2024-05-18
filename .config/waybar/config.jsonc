@@ -12,7 +12,7 @@
         "hyprland/workspaces"
     ],
     "modules-center": [
-
+        "custom/media"
     ],
     "modules-right": [
         "pulseaudio/slider",
@@ -22,6 +22,13 @@
         "network"
     ],
 
+    // Media module
+    "custom/media": {
+        "exec": "mediatext",
+        "interval": 1,
+        "on-click": "playerctl play-pause",
+        "rotate": 90
+    },
     // Date/time modules
     "custom/month_value": {
         "exec": "date +\"%m\"",

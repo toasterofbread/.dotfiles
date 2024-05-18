@@ -19,10 +19,10 @@ fi
 # Show Github streak
 kusa toasterofbread
 
-#echo "Starting hakatime..."
-#sudo docker start haka_db hakatime
-
 xkcd show --latest --width 500
+
+echo "Starting hakatime..."
+sudo docker start haka_db hakatime
 
 echo
 echo "Enter anything to exit..."
