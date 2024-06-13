@@ -16,6 +16,9 @@ waybar &
 killall dunst
 dunst &
 
+# Audiorelay
+audiorelay --minimized &
+
 # ReplaySorcery
 systemctl --user enable --now replay-sorcery
 

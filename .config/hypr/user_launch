@@ -1,3 +1,21 @@
+askUser() {
+    local message="$1"
+    while true; do
+        read -p "$message (y/n): " input
+        case "$input" in
+            y|Y)
+                return 0
+                ;;
+            n|N)
+                return 1
+                ;;
+            *)
+                echo "Invalid input. Try again."
+                ;;
+        esac
+    done
+}
+
 checkNetwork() {
     ping -q -c 1 -W 1 8.8.8.8 1> /dev/null 2> /dev/null
 
@@ -24,7 +42,12 @@ xkcd show --latest --width 500
 echo "Starting hakatime..."
 sudo docker start haka_db hakatime
 
+docker start ollama
+if askUser "Load codellama?"; then
+    echo "Loading codellama..."
+    ollama run codellama:7b-code-q6_K
+fi
+
 echo
 echo "Enter anything to exit..."
 read
-

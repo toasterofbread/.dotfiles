@@ -1,3 +1,7 @@
+function fish_command_not_found
+    __fish_default_command_not_found_handler $argv
+end
+
 source /opt/asdf-vm/asdf.fish
 
 alias dollama="sudo docker start -d -v ollama:/root/.ollama -p 11434:11434 --name ollama -e HSA_OVERRIDE_GFX_VERSION='10.3.0' -e OLLAMA_KEEP_ALIVE=-1 --group-add=video --ipc=host  --privileged --cap-add=SYS_PTRACE --security-opt seccomp=unconfined  ollama/ollama:rocm"
